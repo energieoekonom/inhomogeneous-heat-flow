@@ -7,7 +7,7 @@ Created on Fri Mar 29 16:05:10 2024
 """
 
 import numpy as np
-def heat_flow_magnitute(T, C):
+def heat_flow_magnitude(T, C):
     if T.shape != C.shape:
         raise ValueError(f"shapes T{T.shape} != C{C.shape}")
     
