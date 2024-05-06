@@ -3,7 +3,7 @@
 """
 Created on Mon Mar 25 07:02:46 2024
 
-@author: energieoekonom
+@author: economist
 """
 import sys
 

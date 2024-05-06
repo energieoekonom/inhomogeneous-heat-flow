@@ -3,7 +3,7 @@
 """
 Created on Fri Mar 29 16:05:10 2024
 
-@author: energieoekonom
+@author: economist
 """
 
 import numpy as np
