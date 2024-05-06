@@ -9,13 +9,13 @@ is to model thermal bridge effects of component inhomogeneities.<br><br>
 This project serves as as compendium to a German blog article on heat bridges
 https://energieoekonom.de/waermeleitung-finite-difference/.
 
-<h2>Minimal System<h2>
+<h2>Minimal System</h2>
 
 minimal_system.py<br><br>
 The minimal system example reflects the explanation of setting up a
 finite-difference system of linear equations, and solving it for node temperatures.
 
-<h2>Verification System<h2>
+<h2>Verification System</h2>
 
 For verification of correctness and accuracy of results, a comparison of 
 simulated and theoretical values across a wall of 10 cm thickness consisting
