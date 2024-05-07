@@ -67,7 +67,7 @@ def verification_system():
     # boundary conditions - per default equations resolve to zero
     # but can set temperature of chosen nodes
     # first row temperatures
-    T_i, T_o = 30.0, 20.0
+    T_i, T_o = 20.0, 10.0
     b = els.create_system_results(shape_A, cx, T_i, T_o)
 
     u = np.linalg.solve(A, b)
@@ -75,19 +75,18 @@ def verification_system():
     print("Result matrix of temperatures:")
     print(u_square)
             
-    # pick the wall inner and outer temperatures
-    t_i = u_square[2,0]
-    t_o = u_square[-3,0]
-    
-    # simulation computes temperatures in middle of layers. Hence the above
-    # wall temperatures are half a centimeter into the wall on the 
-    # inside and outside. To fix this, compute the temperature drop for
-    # that half centimeter. As brick layers are several centimeters, can 
-    # compute this from temperature drop between brick simulation nodes.
-    half_brick_drop = -(u_square[3,0] - u_square[2,0]) / 2
-    t_i += half_brick_drop
-    t_o -= half_brick_drop
-    
+    # to get the wall's heat conductivity from the approximation, first compute
+    # the average temperature drop across the inner layer of insulating air
+    # since the computed values represent the middle of air layers, the temperature
+    # drop needs be doubled.
+    delta_t_i = (T_i - np.mean(u_square[1,:])) * 2
+    delta_t_e = (np.mean(u_square[-2,:]) - T_o) * 2
+    R_approx_total = R_si * (T_i - T_o)/delta_t_i
+
+    # wall inner and outer temperatures
+    t_i = T_i - delta_t_i
+    t_o = T_o + delta_t_e
+        
     # and the theoretical values from resistances and thickness of layers
     R_wall_clay = (simulation_depth-4-n_pur) / 100 / kappa_brick
     R_wall_pur = n_pur/ 100 / kappa_pur
@@ -102,6 +101,13 @@ def verification_system():
     print(f"Simulated/theortical outer air layer temperature drop: "
           f"{delta_t_air_e:.3f}/{delta_t_air_e_th:.3f}")
     
+    # simulation computes temperatures in middle of layers. Hence the above
+    # wall temperatures are half a centimeter into the wall on the 
+    # inside and outside. To fix this, compute the temperature drop for
+    # that half centimeter. As brick layers are several centimeters, can 
+    # compute this from temperature drop between brick simulation nodes.
+    half_brick_drop = -(u_square[3,0] - u_square[2,0]) / 2
+
     # get the simulated and theoretical temperature drops across the 
     # layer of polyurethane
     # first, indices of brick bordering the polyurethane
@@ -113,9 +119,10 @@ def verification_system():
     print(f"simulated/theoretical temperature drop across polyurethane: "
           f"{t_pur_i - t_pur_e:.3f}/{delta_t_pur_th:.3f}")
     
-    print(f"theoretical pur layered brick {simulation_depth-4} cm "
+    print(f"simulated/theoretical brick layers with pur insulation {simulation_depth-4} cm "
           f"coefficient of heat conductivity:\n"
-          f"U [W/(m² K)] = {1/R_total:.3f}")
+          f"U [W/(m² K)] = {1/R_approx_total:.3f}/{1/R_total:.3f}")
+    
 
 def main(args):
     verification_system()
