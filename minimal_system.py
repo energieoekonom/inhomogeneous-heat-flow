@@ -19,6 +19,20 @@ plt.rcParams['figure.dpi']= 300
 plt.rcParams['savefig.dpi'] = 300
 
 def flip_vertical(A):
+    """
+    flips matrix along axis 0
+
+    Parameters
+    ----------
+    A : array
+        input matrix.
+
+    Returns
+    -------
+    A_flip : array
+        flipped matrix.
+
+    """
     cy = A.shape[0]
     A_flip = A[np.arange(cy)[::-1],:]
     return A_flip

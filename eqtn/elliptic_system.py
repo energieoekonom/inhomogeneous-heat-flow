@@ -55,11 +55,47 @@ def fill_system_weights(C):
 
 
 def set_identity(A, size2):
+    """
+    sets a portion of the equation system array to identity
+    for edge condition
+
+    Parameters
+    ----------
+    A : array
+        equation system coefficients array.
+    size2 : int
+        portion to set to identity.
+
+    Returns
+    -------
+    None.
+
+    """
     idm = np.identity(A.shape[0])
     A[0:size2,:] = idm[0:size2,:]
     A[-size2:,:] = idm[-size2:,:]
     
 def create_system_results(shape_A, cx, v0, v1):
+    """
+    creates the equation system results vector
+
+    Parameters
+    ----------
+    shape_A : int
+        edge length of system coefficients array.
+    cx : x dimension of heat conductivity matrix
+        DESCRIPTION.
+    v0 : float
+        edge value 1.
+    v1 : float
+        edge value 2.
+
+    Returns
+    -------
+    b : array
+        result vector of equation system.
+
+    """
     b = np.zeros(shape_A)
     # first row temperatures
     frt = v0 * np.ones(cx)
