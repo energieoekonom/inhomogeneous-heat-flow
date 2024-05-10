@@ -33,7 +33,20 @@ png_model_2d.py<br><br>
 
 Creates a heat conductivity map from an input PNG grayscale image and a mapping
 CSV file, giving luminosities a heat conductivity. Was used to create the
-cross-section2.*.png result images.
+cross-section2.*.png result images.<br><br>
+
+Images in root directory were created using the following command line: <br><br>
+
+png_model_2d.py -pixel_step 10 cross_sections/cross-section2.png<br><br>
+
+For the low resolution gradient field image, a wider pixel step of 50 was used:
+<br><br>
+png_model_2d.py -pixel_step 50 cross_sections/cross-section2.png
+
+
+
+
+
 
 
 
